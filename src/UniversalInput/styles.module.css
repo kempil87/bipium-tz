@@ -1,0 +1,46 @@
+.textInputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.inputMask,
+.fullWidth {
+  width: 100%;
+}
+
+.hasActions :global(.ant-input),
+.hasActions :global(.ant-input-number-input),
+.hasActions :global(.ant-select-selector) {
+  padding-right: 2rem;
+}
+
+.inputWithActions {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateY(-50%);
+}
+
+.readOnly {
+  background-color: var(--input-readonly-bg);
+}
+
+.invalidValue {
+  color: var(--input-invalid);
+}
+
+.optionSubLabel {
+  margin-left: 8px;
+  font-size: 12px;
+  opacity: 0.65;
+}
+
+.textArea {
+  resize: vertical;
+}

@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Sono&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Sono&display=swap");
 
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .title {
-  color: white;
-  font-size: 24px
+  color: var(--app-fg);
+  font-size: 24px;
 }
 
 .main {
   width: 100vw;
   height: 100vh;
-  background-color: #262626;
+  background-color: var(--app-bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,7 @@
 
 .inputItems {
   width: 500px;
-  border: 1px solid white;
+  border: 1px solid var(--app-fg);
   border-radius: 10px;
   padding: 20px;
 }
@@ -30,4 +30,10 @@
 .inputItem {
   margin-top: 20px;
   width: 100%;
+}
+
+.inputItemRounded {
+  background-color: var(--app-surface);
+  color: var(--app-surface-fg);
+  border-radius: 15px;
 }

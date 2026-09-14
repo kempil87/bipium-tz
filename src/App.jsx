@@ -1,80 +1,69 @@
-import React from "react";
-import { useState } from "react";
+import cn from "classnames";
+import { useLocalStorage } from "./UseLocalStorage";
+import { UniversalInput } from "./UniversalInput";
 import "./App.css";
-import UniversalInput from "./UniversalInput";
 
-const App = () => {
-  const [firstValue, setFirstValue] = useState("");
-  const [secondValue, setSecondValue] = useState("");
-  const [thirdValue, setThirdValue] = useState("");
-  const [fourValue, setFourValue] = useState("");
-  const [fiveValue, setFiveValue] = useState("");
+const SELECT_OPTIONS = [
+  { value: "first element", label: "Первый элемент" },
+  { value: "second element", label: "Второй элемент" },
+  { value: "third element", label: "Третий элемент" },
+];
+
+export const App = () => {
+  const [numberValue, setNumberValue] = useLocalStorage("universal-input:number");
+  const [textValue, setTextValue] = useLocalStorage("universal-input:text");
+  const [multilineValue, setMultilineValue] = useLocalStorage(
+    "universal-input:multiline"
+  );
+  const [maskValue, setMaskValue] = useLocalStorage("universal-input:mask");
+  const [selectValue, setSelectValue] = useLocalStorage("universal-input:select");
 
   return (
     <div className="main">
       <h1 className="title">THIS IS NOT A TEST TASK</h1>
+
       <div className="inputItems">
         <UniversalInput
           type="number"
-          disabled={false}
-          value={firstValue}
-          onChange={(e) => setFirstValue(e?.target?.value)}
-          placeholder="Number type"
-          style={{ width: "100%" }}
+          value={numberValue}
+          onChange={setNumberValue}
+          placeholder="Число"
+          isStretched
           className="inputItem"
         />
+
         <UniversalInput
-          disabled={false}
-          value={secondValue}
-          onChange={(e) => setSecondValue(e?.target?.value)}
-          placeholder="Text type"
-          style={{ width: "100%" }}
+          value={textValue}
+          onChange={setTextValue}
+          placeholder="Текст"
           className="inputItem"
         />
+
         <UniversalInput
-          multiline={true}
-          disabled={false}
-          value={thirdValue}
-          onChange={(e) => setThirdValue(e?.target?.value)}
-          placeholder="Text multiline type"
-          style={{ width: "100%" }}
+          multiline
+          value={multilineValue}
+          onChange={setMultilineValue}
+          placeholder="Многострочный текст"
           className="inputItem"
         />
+
         <UniversalInput
-          disabled={false}
-          value={fourValue}
-          onChange={(e) => setFourValue(e?.target?.value)}
-          mask={"111-111"}
-          placeholder="With mask"
-          style={{
-            width: "100%",
-            backgroundColor: "white",
-            color: "black",
-            borderRadius: "15px",
-          }}
-          className="inputItem"
+          value={maskValue}
+          onChange={setMaskValue}
+          mask="111-111"
+          placeholder="Маска"
+          className={cn("inputItem", "inputItemRounded")}
         />
+
         <UniversalInput
-          disabled={false}
-          value={fiveValue}
-          onChange={(e) => setFiveValue(e?.target?.value)}
-          options={[
-            { value: "first element", label: "first element" },
-            { value: "second element", label: "second element" },
-            { value: "third element", label: "third element" },
-          ]}
-          placeholder="Another type"
-          style={{
-            width: "100%",
-            backgroundColor: "white",
-            color: "black",
-            borderRadius: "15px",
-          }}
-          className="inputItem"
+          value={selectValue}
+          onChange={setSelectValue}
+          options={SELECT_OPTIONS}
+          placeholder="Список"
+          isStretched
+          className={cn("inputItem", "inputItemRounded")}
         />
       </div>
     </div>
   );
 };
-
-export default App;
