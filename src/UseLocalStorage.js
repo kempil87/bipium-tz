@@ -3,6 +3,10 @@ import { useCallback, useEffect, useState } from "react";
 const canUseStorage = () =>
   typeof window !== "undefined" && typeof window.localStorage !== "undefined";
 
+const isEmptyValue = (value) => {
+  return value === "" || value === null || value === undefined;
+};
+
 const readStorageValue = (key) => {
   if (!key || !canUseStorage()) {
     return;
@@ -17,12 +21,18 @@ const readStorageValue = (key) => {
   }
 };
 
-const writeStorageValue = (key, value) => {
+const writeStorageValue = (key, value, shouldClearEmpty) => {
   if (!key || !canUseStorage()) {
     return;
   }
 
   try {
+    if (shouldClearEmpty && isEmptyValue(value)) {
+      window.localStorage.removeItem(key);
+
+      return;
+    }
+
     const serialized = JSON.stringify(value);
 
     if (window.localStorage.getItem(key) === serialized) {
@@ -35,7 +45,9 @@ const writeStorageValue = (key, value) => {
   }
 };
 
-export const useLocalStorage = (storageKey, initialValue = "") => {
+export const useLocalStorage = (storageKey, options = {}) => {
+  const { initialValue = "", shouldClearEmpty = false } = options;
+
   const [value, setValue] = useState(() => {
     return readStorageValue(storageKey) ?? initialValue;
   });
@@ -43,9 +55,9 @@ export const useLocalStorage = (storageKey, initialValue = "") => {
   const dispatch = useCallback(
     (newValue) => {
       setValue(newValue);
-      writeStorageValue(storageKey, newValue);
+      writeStorageValue(storageKey, newValue, shouldClearEmpty);
     },
-    [storageKey],
+    [storageKey, shouldClearEmpty],
   );
 
   useEffect(() => {
@@ -62,7 +74,7 @@ export const useLocalStorage = (storageKey, initialValue = "") => {
       }
 
       if (event.newValue == null) {
-        setValue("");
+        setValue(initialValue);
 
         return;
       }
@@ -79,7 +91,7 @@ export const useLocalStorage = (storageKey, initialValue = "") => {
     return () => {
       window.removeEventListener("storage", handleStorage);
     };
-  }, [storageKey]);
+  }, [initialValue, storageKey]);
 
   return [value, dispatch];
 };

@@ -9,14 +9,29 @@ const SELECT_OPTIONS = [
   { value: "third element", label: "Третий элемент" },
 ];
 
+const STORAGE_OPTIONS = { shouldClearEmpty: true };
+
 export const App = () => {
-  const [numberValue, setNumberValue] = useLocalStorage("universal-input:number");
-  const [textValue, setTextValue] = useLocalStorage("universal-input:text");
-  const [multilineValue, setMultilineValue] = useLocalStorage(
-    "universal-input:multiline"
+  const [numberValue, setNumberValue] = useLocalStorage(
+    "universal-input:number",
+    STORAGE_OPTIONS,
   );
-  const [maskValue, setMaskValue] = useLocalStorage("universal-input:mask");
-  const [selectValue, setSelectValue] = useLocalStorage("universal-input:select");
+  const [textValue, setTextValue] = useLocalStorage(
+    "universal-input:text",
+    STORAGE_OPTIONS,
+  );
+  const [multilineValue, setMultilineValue] = useLocalStorage(
+    "universal-input:multiline",
+    STORAGE_OPTIONS,
+  );
+  const [maskValue, setMaskValue] = useLocalStorage(
+    "universal-input:mask",
+    STORAGE_OPTIONS,
+  );
+  const [selectValue, setSelectValue] = useLocalStorage(
+    "universal-input:select",
+    STORAGE_OPTIONS,
+  );
 
   return (
     <div className="main">
