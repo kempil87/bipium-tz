@@ -1,7 +1,7 @@
 import { formatCharsInput } from "../../maskFormat";
 
-export const getPlaceholderMask = (mask) => {
-  const editableChars = Object.keys(formatCharsInput).join("");
+export const getPlaceholderMask = (mask, formatChars = formatCharsInput) => {
+  const editableChars = new Set(Object.keys(formatChars));
   let placeholder = "";
   let escaped = false;
 
@@ -19,16 +19,16 @@ export const getPlaceholderMask = (mask) => {
       continue;
     }
 
-    placeholder += editableChars.includes(char) ? "_" : char;
+    placeholder += editableChars.has(char) ? "_" : char;
   }
 
   return placeholder;
 };
 
-export const isEmptyMaskedValue = (value, mask) => {
+export const isEmptyMaskedValue = (value, mask, formatChars) => {
   if (!value) {
     return true;
   }
 
-  return value === getPlaceholderMask(mask);
+  return value === getPlaceholderMask(mask, formatChars);
 };

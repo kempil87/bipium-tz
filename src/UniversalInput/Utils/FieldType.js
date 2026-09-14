@@ -1,6 +1,6 @@
 import { maskIsValid } from "../../maskValidator";
 
-export const resolveFieldType = ({
+export const getFieldType = ({
   type,
   mask,
   script,

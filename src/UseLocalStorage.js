@@ -46,16 +46,21 @@ const writeStorageValue = (key, value, shouldClearEmpty) => {
 };
 
 export const useLocalStorage = (storageKey, options = {}) => {
-  const { initialValue = "", shouldClearEmpty = false } = options;
+  const { initialValue, shouldClearEmpty = false } = options;
 
   const [value, setValue] = useState(() => {
     return readStorageValue(storageKey) ?? initialValue;
   });
 
   const dispatch = useCallback(
-    (newValue) => {
-      setValue(newValue);
-      writeStorageValue(storageKey, newValue, shouldClearEmpty);
+    (value) => {
+      setValue((current) => {
+        const resolved = typeof value === "function" ? value(current) : value;
+
+        writeStorageValue(storageKey, resolved, shouldClearEmpty);
+
+        return resolved;
+      });
     },
     [storageKey, shouldClearEmpty],
   );

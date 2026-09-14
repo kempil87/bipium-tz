@@ -7,6 +7,7 @@ import {
   shouldBlockNumberKey,
   toInputNumberValue,
 } from "../Utils/Number";
+import { getEventValue } from "../Utils/Value";
 import styles from "../styles.module.css";
 
 export const NumberField = ({
@@ -23,26 +24,26 @@ export const NumberField = ({
 }) => {
   const numericValue = parseNumberValue(value);
 
-  const applyNumber = (incomingValue) => {
+  const applyNumber = (value) => {
     if (prepareNumber) {
-      return prepareNumber(incomingValue);
+      return prepareNumber(value);
     }
 
-    return incomingValue;
+    return value;
   };
 
-  const emitNumber = (incomingValue) => {
-    const prepared = applyNumber(parseNumberValue(incomingValue));
+  const emitNumber = (value) => {
+    const prepared = applyNumber(parseNumberValue(value));
 
     onChange(parseNumberValue(prepared));
   };
 
-  const handleChange = (incomingValue) => {
-    emitNumber(incomingValue);
+  const handleChange = (value) => {
+    emitNumber(value);
   };
 
   const handleBlur = (event) => {
-    emitNumber(event.target.value);
+    emitNumber(getEventValue(event));
   };
 
   const handleKeyDown = (event) => {
@@ -55,7 +56,11 @@ export const NumberField = ({
 
   if (readOnly) {
     return (
-      <span className={className}>
+      <span
+        className={cn(className, {
+          [styles.fullWidth]: isStretched,
+        })}
+      >
         {formatter ? formatter(numericValue) : numericValue}
       </span>
     );

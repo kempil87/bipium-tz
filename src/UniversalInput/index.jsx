@@ -1,8 +1,7 @@
-import { useEffect, useRef } from "react";
-
 import cn from "classnames";
 import { Field } from "./Fields";
-import { resolveFieldType } from "./Utils/FieldType";
+import { FieldActions } from "./FieldActions";
+import { getFieldType } from "./Utils/FieldType";
 import { normalizeInputValue } from "./Utils/Value";
 import styles from "./styles.module.css";
 
@@ -11,31 +10,16 @@ export const UniversalInput = ({
   className,
   actionsClassName,
   actions,
-  type,
-  multiline,
-  script,
-  onChange,
   value,
   readOnly,
   disabled,
-  autoFocus,
-  onKeyDown,
   ...rest
 }) => {
-  const inputRef = useRef(null);
-
   const normalizedValue = normalizeInputValue(value);
   const isReadOnly = Boolean(readOnly || disabled);
   const hasActions = Boolean(actions?.length);
 
-  const fieldType = resolveFieldType({
-    type,
-    mask: rest.mask,
-    script,
-    options: rest.options,
-    multiline,
-    children: rest.children,
-  });
+  const fieldType = getFieldType(rest);
 
   const inputClassName = cn(className, {
     [styles.readOnly]: isReadOnly,
@@ -47,33 +31,19 @@ export const UniversalInput = ({
     [styles.hasActions]: hasActions,
   });
 
-  useEffect(() => {
-    if (autoFocus) {
-      inputRef.current?.focus?.();
-    }
-  }, [autoFocus]);
-
   return (
     <div className={wrapperClassNames}>
       <Field
-        type={fieldType}
         {...rest}
-        inputRef={inputRef}
+        type={fieldType}
         value={normalizedValue}
         className={inputClassName}
         readOnly={isReadOnly}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
       />
 
       {hasActions && (
-        <ul className={cn(styles.inputWithActions, actionsClassName)}>
-          {actions.map((node, index) => (
-            <li key={index}>{node}</li>
-          ))}
-        </ul>
+        <FieldActions actions={actions} className={actionsClassName} />
       )}
     </div>
   );
 };
-

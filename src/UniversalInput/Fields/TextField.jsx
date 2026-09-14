@@ -1,15 +1,13 @@
 import { Input } from "antd";
 
-export const TextField = ({ inputRef, onChange, ...props }) => {
-  const handleChange = (event) => {
-    onChange(event.target.value);
-  };
+import { handleInputChange } from "../Utils/Value";
 
+export const TextField = ({ inputRef, onChange, ...props }) => {
   return (
     <Input
       {...props}
       ref={inputRef}
-      onChange={handleChange}
+      onChange={handleInputChange(onChange)}
     />
   );
 };

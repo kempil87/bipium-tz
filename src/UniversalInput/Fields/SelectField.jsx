@@ -50,6 +50,11 @@ export const SelectField = ({
 
   return (
     <Select
+      onInputKeyDown={onKeyDown}
+      showSearch
+      bordered={false}
+      showArrow={false}
+      filterOption={filterSelectOption}
       {...props}
       ref={inputRef}
       className={cn(className, {
@@ -57,11 +62,6 @@ export const SelectField = ({
         [styles.invalidValue]: invalid,
       })}
       value={selectValue}
-      onInputKeyDown={onKeyDown}
-      showSearch
-      bordered={false}
-      showArrow={false}
-      filterOption={filterSelectOption}
     >
       {options.map(renderSelectOption)}
     </Select>

@@ -22,30 +22,30 @@ export const toInputNumberValue = (value) => {
   return value;
 };
 
-export const sanitizeNumberInput = (incomingValue) => {
-  if (incomingValue == null) {
+export const sanitizeNumberInput = (value) => {
+  if (value == null) {
     return "";
   }
 
-  return String(incomingValue)
+  return String(value)
     .replace(/[eE]/g, "")
     .replace(/[^\d.-]/g, "");
 };
 
-export const parseNumberValue = (incomingValue) => {
-  if (isEmptyValue(incomingValue)) {
+export const parseNumberValue = (value) => {
+  if (isEmptyValue(value)) {
     return "";
   }
 
-  if (typeof incomingValue === "number") {
-    if (Number.isFinite(incomingValue)) {
-      return incomingValue;
+  if (typeof value === "number") {
+    if (Number.isFinite(value)) {
+      return value;
     }
 
     return "";
   }
 
-  const sanitized = sanitizeNumberInput(incomingValue);
+  const sanitized = sanitizeNumberInput(value);
 
   if (
     !sanitized ||

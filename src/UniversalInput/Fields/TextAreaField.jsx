@@ -1,5 +1,7 @@
 import { Input } from "antd";
 
+import { handleInputChange } from "../Utils/Value";
+
 const { TextArea } = Input;
 
 export const TextAreaField = ({
@@ -10,10 +12,6 @@ export const TextAreaField = ({
   onChange,
   ...props
 }) => {
-  const handleChange = (event) => {
-    onChange(event.target.value);
-  };
-
   return (
     <TextArea
       {...props}
@@ -24,7 +22,7 @@ export const TextAreaField = ({
         minRows: readOnly ? 1 : minRows,
         maxRows,
       }}
-      onChange={handleChange}
+      onChange={handleInputChange(onChange)}
     />
   );
 };
